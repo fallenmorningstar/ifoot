@@ -5,9 +5,14 @@ bot = telebot.TeleBot('1067190601:AAHYB0qvBpsQ9pIUiodEBI8iN5de71XM2IA')
 
 # GET CONTACT
 contact_keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=1)
-but = types.KeyboardButton(text='Отправить контакт',request_contact=True)
+but = types.KeyboardButton(text='Отправить контакт', request_contact=True)
 contact_keyboard.add(but)
 
+# CHOOSE TYPE
+type_keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=1)
+t_but1 = types.KeyboardButton(text='Пользователь')
+t_but2 = types.KeyboardButton(text='Продавец')
+type_keyboard.add(t_but1,t_but2)
 
 # USER KEYBOARD
 u_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=1)
@@ -33,3 +38,5 @@ place_keyboard.row('Главное меню')
 # FEEDBACK
 feedback_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=1)
 feedback_keyboard.row('Главное меню')
+
+

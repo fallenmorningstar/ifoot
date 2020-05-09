@@ -3,6 +3,7 @@ import telebot  # для работы с Telegram API
 import time
 import sqlite3
 import markups
+import db
 from telebot import types
 
 bot = telebot.TeleBot(config.token)
@@ -48,8 +49,8 @@ def add_user(message):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     newdata = [
-        (message.contact.user_id, message.contact.first_name, message.contact.last_name, message.contact.phone_number)]
-    cursor.executemany("INSERT INTO user VALUES (?,?,?,?)", newdata)
+        (message.contact.user_id, message.contact.first_name, message.contact.last_name, message.contact.phone_number,'0')]
+    cursor.executemany("INSERT INTO user VALUES (?,?,?,?,?)", newdata)
     conn.commit()
     bot.send_message(message.chat.id, 'Приятно познакомиться)', reply_markup=markups.u_keyboard)
 
@@ -65,11 +66,6 @@ def log(message, answer):
                                                                    message.text))
     print("Ответ бота -", answer)
 
-def menu_add_keyboard(message, s):
-    menu_keyboard = types.ReplyKeyboardMarkup()
-    menu_keyboard.row('1', '2', '3', '4', '5')
-    menu_keyboard.row('Главное меню')
-    bot.send_message(message.chat.id, s, reply_markup=menu_keyboard)
 
 @bot.message_handler(content_types=["text"])
 def send_text(message):
