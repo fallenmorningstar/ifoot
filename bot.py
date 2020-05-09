@@ -49,10 +49,33 @@ def add_user(message):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     newdata = [
-        (message.contact.user_id, message.contact.first_name, message.contact.last_name, message.contact.phone_number,'0')]
+        (message.contact.user_id, message.contact.first_name, message.contact.last_name, message.contact.phone_number,
+         '0')]
     cursor.executemany("INSERT INTO user VALUES (?,?,?,?,?)", newdata)
     conn.commit()
-    bot.send_message(message.chat.id, 'Приятно познакомиться)', reply_markup=markups.u_keyboard)
+    conn.close()
+    bot.send_message(message.chat.id, 'Приятно познакомиться)', reply_markup=markups.type_keyboard)
+
+
+@bot.message_handler(content_types=["text"])
+def type(message):
+    if message.text == 'Пользователь':
+        bot.send_message(message.chat.id,
+                         "Мы предлагаем Вам использовать ниже перечисленные функции для поиска ближайших товаров и магазинов.\n"
+                         "Вы можете искать товары по категориям и добавлять любимые места чтобы легче отслеживать информацию о товарах."
+                         "\nПри желании, Вы можете оставить отзыв для разработчиков, мы обязательно учтем ваше мнение или пожелание :)",
+                         reply_markup=markups.u_keyboard)
+    elif message.text == 'Продавец':
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+        query = "UPDATE user SET seller = 1 WHERE chat_id=?"
+        cursor.execute(query, [message.from_user.id])
+        conn.commit()
+        conn.close()
+        bot.send_message(message.chat.id, 'ПРОВЕРКА СВЯЗИ, КАПИСТАН!\n'
+                                          'Давайте зарегестрируем магазин!', reply_markup=markups.reg_sell_keyboard)
+    else:
+        bot.send_message(message.chat.id, 'Вам необходимо выбрать подходящую опцию')
 
 
 # Ведем логи

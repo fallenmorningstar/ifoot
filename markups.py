@@ -14,6 +14,15 @@ t_but1 = types.KeyboardButton(text='Пользователь')
 t_but2 = types.KeyboardButton(text='Продавец')
 type_keyboard.add(t_but1,t_but2)
 
+# SELLER KEYBOARD
+
+reg_sell_keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=1)
+s_but1 = types.KeyboardButton(text='Наименование магазина')
+s_but2 = types.KeyboardButton(text='Адрес магазина')
+s_but3 = types.KeyboardButton(text='Геолокация магазина', request_location=True)
+
+reg_sell_keyboard.add(s_but1,s_but2,s_but3)
+
 # USER KEYBOARD
 u_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=1)
 u_keyboard.row('🔍 Поиск', '📚 Категории')
